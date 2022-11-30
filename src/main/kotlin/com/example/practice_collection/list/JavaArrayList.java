@@ -73,22 +73,12 @@ public class JavaArrayList<E> implements JavaList<E> {
             return;
         }
 
-        if (targetIndex != size - 1) {
-            Object[] newElements = new Object[size];
-
-            for (int i = 0; i < targetIndex; i++) {
-                newElements[i] = elements[i];
-            }
-
-            for (int i = targetIndex; i < size - 1; i++) {
-                newElements[i] = elements[i + 1];
-            }
-
-            this.elements = newElements;
+        for (int i = targetIndex; i < size - 1; i++) {
+            this.elements[i] = this.elements[i + 1];
         }
 
-        elements[size - 1] = null;
-        size -= 1;
+        this.elements[size - 1] = null;
+        this.size -= 1;
     }
 
     /**

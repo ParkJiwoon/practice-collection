@@ -40,14 +40,7 @@ class KotlinArrayList<E>(
             return
         }
 
-        if (targetIndex != size - 1) {
-            val newElements = arrayOfNulls<Any>(size)
-
-            (0 until targetIndex).forEach { newElements[it] = elements[it] }
-            (targetIndex until (size - 1)).forEach { newElements[it] = elements[it + 1] }
-
-            this.elements = newElements
-        }
+        (targetIndex until (size - 1)).forEach { elements[it] = elements[it + 1] }
 
         this.elements[size - 1] = null
         this.size -= 1
