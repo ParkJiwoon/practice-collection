@@ -177,8 +177,8 @@ public class JavaLinkedList<E> implements JavaList<E> {
     public void addAll(JavaList<E> list) {
         E[] array = list.toArray();
 
-        for (int i = 0; i < list.size(); i++) {
-            add(array[i]);
+        for (E e : array) {
+            add(e);
         }
     }
 
