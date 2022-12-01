@@ -23,3 +23,7 @@ Java 에서 제공하는 공식 Collection 과 다른 부분이 있을 수 있�
 - ArrayList
   - [Java](https://github.com/ParkJiwoon/practice-collection/blob/implemented/src/main/kotlin/com/example/practice_collection/list/JavaArrayList.java)
   - [Kotlin](https://github.com/ParkJiwoon/practice-collection/blob/implemented/src/main/kotlin/com/example/practice_collection/list/KotlinArrayList.kt)
+- LinkedList
+  - [Java](https://github.com/ParkJiwoon/practice-collection/blob/implemented/src/main/kotlin/com/example/practice_collection/list/JavaLinkedList.java): Dummy Node 사용하지 않는 Java 공식과 비슷한 구현
+  - [Java](https://github.com/ParkJiwoon/practice-collection/blob/implemented/src/main/kotlin/com/example/practice_collection/list/JavaDummyLinkedList.java): `first`, `last` 에 Dummy Node 넣어서 구현
+  - [Kotlin](https://github.com/ParkJiwoon/practice-collection/blob/implemented/src/main/kotlin/com/example/practice_collection/list/KotlinLinkedList.kt): `first`, `last` 에 Dummy Node 넣어서 구현
