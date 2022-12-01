@@ -27,7 +27,7 @@ public class JavaArrayList<E> implements JavaList<E> {
     @Override
     public void add(E e) {
         if (size == elements.length) {
-            growElements(size / 2);
+            growElements(size + 1);
         }
 
         this.elements[size] = e;
@@ -104,17 +104,23 @@ public class JavaArrayList<E> implements JavaList<E> {
 
     /**
      * capacity 만큼 배열의 길이를 늘려주는 메서드
-     * 다만, 예외적으로 배열의 데이터가 0 인 경우에는 DEFAULT_CAPACITY (10) 만큼의 공간을 할당
+     * 배열의 데이터가 0 인 경우에는 DEFAULT_CAPACITY (10) 만큼의 공간을 할당
+     * 배열의 데이터가 0 이 아닌 경우 1.5 배와 capacity 중 더 큰 값으로 늘려주기
      */
     private void growElements(int capacity) {
+        int newCapacity = findCapacity(capacity);
+        this.elements = copyOf(elements, newCapacity);
+    }
+
+    private int findCapacity(int capacity) {
         if (size == 0) {
-            this.elements = copyOf(elements, Math.max(capacity, DEFAULT_CAPACITY));
-            return;
+            return Math.max(capacity, DEFAULT_CAPACITY);
         }
 
         int oldCapacity = elements.length;
-        int newCapacity = oldCapacity + capacity;
-        this.elements = copyOf(elements, newCapacity);
+        int newCapacity = oldCapacity + (oldCapacity / 2);
+
+        return Math.max(capacity, newCapacity);
     }
 
     private Object[] copyOf(Object[] objects, int newLength) {
