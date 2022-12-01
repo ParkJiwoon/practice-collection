@@ -53,7 +53,7 @@ public class JavaArrayList<E> implements JavaList<E> {
      */
     @Override
     public boolean contains(E e) {
-        return indexOfElement(e) > -1;
+        return indexOf(e) > -1;
     }
 
     /**
@@ -67,7 +67,7 @@ public class JavaArrayList<E> implements JavaList<E> {
      */
     @Override
     public void remove(E e) {
-        int targetIndex = indexOfElement(e);
+        int targetIndex = indexOf(e);
 
         if (targetIndex == -1) {
             return;
@@ -131,16 +131,28 @@ public class JavaArrayList<E> implements JavaList<E> {
      * 데이터의 index 위치를 찾는 메서드
      * null 값 자체가 데이터로 들어오는 경우도 있기 때문에 별도의 처리를 해줌
      */
-    private int indexOfElement(E e) {
+    private int indexOf(E e) {
+        if (e == null) {
+            return indexOfNullElement();
+        }
+
+        return indexOfElement(e);
+    }
+
+    private int indexOfNullElement() {
         for (int i = 0; i < size; i++) {
-            if (e == null) {
-                if (elements[i] == null) {
-                    return i;
-                }
-
-                continue;
+            if (elements[i] == null) {
+                return i;
             }
+        }
 
+        return -1;
+    }
+
+    private int indexOfElement(E e) {
+        assert e != null;
+
+        for (int i = 0; i < size; i++) {
             if (e.equals(elements[i])) {
                 return i;
             }
