@@ -26,14 +26,16 @@ public class JavaLinkedListTest {
     @DisplayName("JavaLinkedList get 테스트")
     void testGet() {
         JavaList<String> list = new JavaLinkedList<>();
-        list.add("get sample");
+        list.add("get sample 1");
+        list.add("get sample 2");
 
         // success
-        assertThat(list.get(0)).isEqualTo("get sample");
+        assertThat(list.get(0)).isEqualTo("get sample 1");
+        assertThat(list.get(1)).isEqualTo("get sample 2");
 
         // 범위에 없는 index 를 넣으면 Exception
         assertThatExceptionOfType(IndexOutOfBoundsException.class)
-                .isThrownBy(() -> list.get(1));
+                .isThrownBy(() -> list.get(2));
     }
 
     @Test

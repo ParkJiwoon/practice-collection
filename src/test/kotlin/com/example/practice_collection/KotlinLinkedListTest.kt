@@ -22,14 +22,16 @@ class KotlinLinkedListTest {
     @DisplayName("KotlinLinkedList get 테스트")
     fun testGet() {
         val list: JavaList<String> = KotlinLinkedList()
-        list.add("get sample")
+        list.add("get sample 1")
+        list.add("get sample 2")
 
         // success
-        assertThat(list[0]).isEqualTo("get sample")
+        assertThat(list[0]).isEqualTo("get sample 1")
+        assertThat(list[1]).isEqualTo("get sample 2")
 
         // 범위에 없는 index 를 넣으면 Exception
         assertThatExceptionOfType(IndexOutOfBoundsException::class.java)
-            .isThrownBy { list[1] }
+            .isThrownBy { list[2] }
     }
 
     @Test
