@@ -1,6 +1,5 @@
 package com.example.practice_collection
 
-import com.example.practice_collection.list.JavaLinkedList
 import com.example.practice_collection.list.JavaList
 import com.example.practice_collection.list.KotlinArrayList
 import com.example.practice_collection.list.KotlinLinkedList
@@ -137,6 +136,6 @@ class KotlinArrayListTest {
             anotherList.add("another")
         }
         list.addAll(anotherList)
-        assertThat(list.size()).isEqualTo(24)
+        assertThat(list.size()).isEqualTo(27)
     }
 }
