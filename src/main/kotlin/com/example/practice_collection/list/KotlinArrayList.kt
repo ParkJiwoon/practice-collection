@@ -136,8 +136,7 @@ class KotlinArrayList<E>(
      * null 값 자체가 데이터로 들어오는 경우도 있기 때문에 별도의 처리를 해줌
      */
     private fun indexOf(e: E?): Int {
-        e ?: return indexOfNullElement()
-        return indexOfElement(e)
+        return e?.let { indexOfElement(e) } ?: indexOfNullElement()
     }
 
     private fun indexOfNullElement(): Int {
@@ -161,7 +160,7 @@ class KotlinArrayList<E>(
     }
 
     override fun toArray(): Array<E> {
-        TODO("Not yet implemented")
+        return copyOf(elements, size) as Array<E>
     }
 }
 
