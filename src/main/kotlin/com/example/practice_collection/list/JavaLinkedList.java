@@ -1,5 +1,7 @@
 package com.example.practice_collection.list;
 
+import org.jetbrains.annotations.Nullable;
+
 public class JavaLinkedList<E> implements JavaList<E> {
 
     private static class Node<E> {
@@ -19,12 +21,17 @@ public class JavaLinkedList<E> implements JavaList<E> {
     private Node<E> last;
 
 
-
     @Override
     public int size() {
         return size;
     }
 
+    /**
+     * List 의 맨 뒤에 데이터 추가 O(1)
+     *
+     * LinkedList 의 특성상 맨앞에도 O(1) 의 속도로 추가할 수 있다
+     * 중간에 추가하려면 탐색 시간 때문에 O(n)
+     */
     @Override
     public void add(E e) {
         Node<E> newNode = new Node<>(e, last, null);
@@ -39,28 +46,20 @@ public class JavaLinkedList<E> implements JavaList<E> {
         size += 1;
     }
 
+    /**
+     * 특정 index 의 데이터를 가져온다 O(n)
+     * index 의 범위를 벗어나면 IndexOutOfBoundsException
+     * 찾는 시간을 조금이라도 줄이기 위해 size 와 비교해서 앞에서부터 찾거나 뒤에서부터 찾음
+     */
     @Override
     public E get(int index) {
         validateIndexRange(index);
 
-        Node<E> node;
-
         if (index < (size / 2)) {
-            node = first;
-
-            for (int i = 0; i < index; i++) {
-                node = node.next;
-            }
-
-            return node.item;
+            return findNodeFromFirst(index);
         }
 
-        node = last;
-        for (int i = size - 1; i > index; i--) {
-            node = node.prev;
-        }
-
-        return node.item;
+        return findNodeFromLast(index);
     }
 
     private void validateIndexRange(int index) {
@@ -69,40 +68,81 @@ public class JavaLinkedList<E> implements JavaList<E> {
         }
     }
 
-    @Override
-    public boolean contains(E e) {
+    private E findNodeFromFirst(int index) {
         Node<E> node = first;
 
-        while (node != null) {
-            if (e == null) {
-                if (node.item == null) {
-                    return true;
-                }
-            } else if (e.equals(node.item)) {
-                return true;
-            }
-
+        for (int i = 0; i < index; i++) {
             node = node.next;
         }
 
-        return false;
+        return node.item;
     }
 
+    private E findNodeFromLast(int index) {
+        Node<E> node = last;
+
+        for (int i = size - 1; i > index; i--) {
+            node = node.prev;
+        }
+
+        return node.item;
+    }
+
+    /**
+     * 파라미터가 List 에 포함되면 true, 아니면 false
+     * 배열을 일일히 돌면서 확인해야 하기 때문에 시간복잡도는 O(n)
+     */
+    @Override
+    public boolean contains(E e) {
+        return findNode(e) != null;
+    }
+
+    /**
+     * List 에 존재하는 데이터 하나 삭제 O(n)
+     *
+     * LinkedList 의 특성상 배열처럼 삭제 후 데이터를 밀어주는 작업은 없지만
+     * 데이터를 찾는데 걸리는 시간이 존재하기 때문에 O(n) 의 시간복잡도를 가짐
+     *
+     * pop(), poll() 처럼 맨앞이나 맨뒷값을 제거한다는 사실을 알고있다면 O(1)
+     */
     @Override
     public void remove(E e) {
-        Node<E> node = first;
+        Node<E> node = findNode(e);
 
-        while (node != null) {
-            if (e == null) {
-                if (node.item == null) {
-                    unlink(node);
-                }
-            } else if (e.equals(node.item)) {
-                unlink(node);
-            }
-
-            node = node.next;
+        if (node != null) {
+            unlink(node);
         }
+    }
+
+    @Nullable
+    private Node<E> findNode(E e) {
+        if (e == null) {
+            return findNodeOfNullItem();
+        }
+
+        return findNodeOfItem(e);
+    }
+
+    @Nullable
+    private Node<E> findNodeOfNullItem() {
+        for (Node<E> x = first; x != null; x = x.next) {
+            if (x.item == null) {
+                return x;
+            }
+        }
+
+        return null;
+    }
+
+    @Nullable
+    private Node<E> findNodeOfItem(E e) {
+        for (Node<E> x = first; x != null; x = x.next) {
+            if (e.equals(x.item)) {
+                return x;
+            }
+        }
+
+        return null;
     }
 
     private void unlink(Node<E> node) {
@@ -130,6 +170,9 @@ public class JavaLinkedList<E> implements JavaList<E> {
         size -= 1;
     }
 
+    /**
+     * ArrayList 와 다르게 capacity 의 관리같은거 할 필요 없이 맨 뒤에 주르륵 추가 가능
+     */
     @Override
     public void addAll(JavaList<E> list) {
         E[] array = list.toArray();
