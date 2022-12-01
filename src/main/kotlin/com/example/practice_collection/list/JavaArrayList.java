@@ -90,15 +90,13 @@ public class JavaArrayList<E> implements JavaList<E> {
      */
     @Override
     public void addAll(JavaList<E> list) {
-        if (list.size() == 0) {
-            return;
-        }
-
         int newSize = size + list.size();
         growElements(newSize);
 
+        E[] array = list.toArray();
+
         for (int i = size; i < newSize; i++) {
-            this.elements[i] = list.get(i - size);
+            this.elements[i] = array[i - size];
         }
 
         this.size = newSize;
