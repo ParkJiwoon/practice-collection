@@ -153,6 +153,6 @@ public class JavaArrayList<E> implements JavaList<E> {
 
     @Override
     public E[] toArray() {
-        return null;
+        return (E[]) copyOf(elements, size);
     }
 }
